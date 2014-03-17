@@ -1,0 +1,18 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench>
+    <Files>
+      <File FileName="CurriculumSchedule/MainActivity.cs" Line="41" Column="96" />
+      <File FileName="CurriculumSchedule/Resources/AboutResources.txt" Line="1" Column="1" />
+      <File FileName="CurriculumSchedule/Resources/Resource.designer.cs" Line="1" Column="1" />
+      <File FileName="CurriculumSchedule/TodayScheduleActivity.cs" Line="27" Column="61" />
+      <File FileName="CurriculumSchedule/Entity/Curriculum.cs" Line="12" Column="29" />
+      <File FileName="CurriculumSchedule/Helpers/HttpHelper.cs" Line="67" Column="23" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.CurriculumSchedule MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="emulator-5554" />
+</Properties>
