@@ -1,9 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CurriculumSchedule/MainActivity.cs">
+    <Files>
+      <File FileName="CurriculumSchedule/Helpers/HttpHelper.cs" Line="71" Column="15" />
+      <File FileName="CurriculumSchedule/TodayScheduleActivity.cs" Line="31" Column="40" />
+      <File FileName="CurriculumSchedule/Helpers/StringHelper.cs" Line="16" Column="3" />
+      <File FileName="WebHost/Default.aspx" Line="1" Column="42" />
+      <File FileName="WebHost/Default.aspx.cs" Line="42" Column="20" />
+      <File FileName="WebHost/Default.aspx.designer.cs" Line="1" Column="1" />
+      <File FileName="WebHost/HttpHelper.cs" Line="68" Column="15" />
+      <File FileName="CurriculumSchedule/MainActivity.cs" Line="26" Column="67" />
+      <File FileName="CurriculumSchedule/Helpers/CurriculumAdapter.cs" Line="41" Column="81" />
+      <File FileName="WebHost/web.config" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.CurriculumSchedule MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="ZTE-N919" AndroidDeviceId-Release="emulator-5554" />
+  <MonoDevelop.Ide.ItemProperties.CurriculumSchedule MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="ZTE-N919" AndroidDeviceId-Release="ZTE-N919" />
 </Properties>

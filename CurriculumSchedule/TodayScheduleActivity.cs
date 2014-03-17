@@ -28,15 +28,15 @@ namespace CurriculumSchedule
 			var tmp = result.Split('/');
 			foreach(var str_class in tmp)
 			{
-				var lines = str_class.Split('\n');
+				var lines = str_class.TrimStart('\n').Split('\n');
 				Curriculum c = new Curriculum();
-				c.Title = lines[1];
-				c.ClassRoom = lines[6];
-				c.SectionOfDay = lines[7][2] - '0';
-				c.DayOfWeek = StringHelper.IntToDayOfWeek(lines[7][0] - '0');
-				lines[8] = lines[8].Replace("周上", "");
+				c.Title = lines[0];
+				c.ClassRoom = lines[5];
+				c.SectionOfDay = lines[6][2] - '0';
+				c.DayOfWeek = StringHelper.IntToDayOfWeek(lines[6][0] - '0');
+				lines[7] = lines[7].Replace("周上", "");
 				c.WeekOfCurriculum = new List<int>();
-				var weeks = lines[8].Split(',');
+				var weeks = lines[7].Split(',');
 				foreach(var week in weeks)
 				{
 					if(week.IndexOf("-") < 0)
@@ -58,6 +58,8 @@ namespace CurriculumSchedule
 			}
 			var StartDate = Convert.ToDateTime(File.ReadAllText (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Date.txt")));
 			var Weeks = Math.Ceiling ((DateTime.Now.Date - StartDate).TotalDays / 7);
+			TextView tvWeek = FindViewById<TextView> (Resource.Id.tvWeek);
+			tvWeek.Text = String.Format("本学期第 {0} 周", Weeks);
 			var CurrentCurriculums = (from c in Curriculums
 			                          where c.DayOfWeek == DateTime.Now.DayOfWeek
 			                              && c.WeekOfCurriculum.Any (x => x == Weeks)
