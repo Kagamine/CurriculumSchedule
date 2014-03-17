@@ -23,7 +23,7 @@ namespace CurriculumSchedule
 			SetContentView(Resource.Layout.TodaySchedule);
 			lstCurriculum = FindViewById<ListView> (Resource.Id.lstCurriculum);
 			List<Curriculum> Curriculums = new List<Curriculum>();
-			var result = File.ReadAllText (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"), Encoding.UTF8);
+			var result = File.ReadAllText (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"));
 
 			var tmp = result.Split('/');
 			foreach(var str_class in tmp)
