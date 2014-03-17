@@ -18,7 +18,7 @@ namespace CurriculumSchedule
 		public string Title { get; set; }
 		public string Teacher { get; set; }
 		public string ClassRoom { get; set; }
-		public int[] WeekOfCurriculum { get; set; }
+		public List<int> WeekOfCurriculum { get; set; }
 	} 
 }
 
