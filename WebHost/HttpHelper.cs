@@ -6,10 +6,10 @@ using System.Text;
 
 namespace WebHost
 {
-	public static class HttpHelper
+	public class HttpHelper
 	{
-		public static CookieContainer cookie = new CookieContainer();
-		public static string HttpPost(string Url, List<Argument> args)
+		public CookieContainer cookie = new CookieContainer();
+		public string HttpPost(string Url, List<Argument> args)
 		{
 			string ret = string.Empty;
 			try
@@ -45,7 +45,7 @@ namespace WebHost
 			}
 			return ret;
 		}
-		public static string HttpGet(string Url)
+		public string HttpGet(string Url)
 		{
 			string ret = string.Empty;
 			try

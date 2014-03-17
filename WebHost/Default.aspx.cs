@@ -10,6 +10,7 @@ namespace WebHost
 		protected override void OnLoad (EventArgs e)
 		{
 			base.OnLoad (e);
+			HttpHelper HttpHelper = new HttpHelper ();
 			var Stuid = Request.QueryString ["stuid"].ToString ();
 			var Pwd = Request.QueryString ["Pwd"].ToString ();
 			var args = new List<Argument>();
