@@ -15,57 +15,232 @@ namespace CurriculumSchedule
 	[Activity (Label = "今日课程")]			
 	public class TodayScheduleActivity : Activity
 	{
-		public List<Curriculum> Curriculums = new List<Curriculum> ();
+		public List<Curriculum> Curriculums;
 		ListView lstCurriculum;
+		public DateTime Target;
+		public DateTime StartDate;
+		public CurriculumAdapter adapter;
+		public Button btn_week_1, btn_week_2, btn_week_3, btn_week_4, btn_week_5, btn_week_6, btn_week_7;
+		public override bool OnCreateOptionsMenu (IMenu menu)
+		{
+			menu.Add (0, 0, 0, "切换帐号");
+			menu.Add (0, 1, 1, "前一天");
+			menu.Add (0, 2, 2, "后一天");
+			return true;
+		}
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 			SetContentView(Resource.Layout.TodaySchedule);
+			adapter = new CurriculumAdapter(this, new List<Curriculum>());
 			lstCurriculum = FindViewById<ListView> (Resource.Id.lstCurriculum);
-			List<Curriculum> Curriculums = new List<Curriculum>();
-			var result = File.ReadAllText (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"));
-
-			var tmp = result.Split('/');
-			foreach(var str_class in tmp)
+			lstCurriculum.Adapter = adapter;
+			btn_week_1 = FindViewById<Button> (Resource.Id.btn_week_1);
+			btn_week_2 = FindViewById<Button> (Resource.Id.btn_week_2);
+			btn_week_3 = FindViewById<Button> (Resource.Id.btn_week_3);
+			btn_week_4 = FindViewById<Button> (Resource.Id.btn_week_4);
+			btn_week_5 = FindViewById<Button> (Resource.Id.btn_week_5);
+			btn_week_6 = FindViewById<Button> (Resource.Id.btn_week_6);
+			btn_week_7 = FindViewById<Button> (Resource.Id.btn_week_7);
+			btn_week_1.Click += (sender, e) => 
 			{
-				var lines = str_class.TrimStart('\n').Split('\n');
-				Curriculum c = new Curriculum();
-				c.Title = lines[0];
-				c.ClassRoom = lines[5];
-				c.SectionOfDay = lines[6][2] - '0';
-				c.DayOfWeek = StringHelper.IntToDayOfWeek(lines[6][0] - '0');
-				lines[7] = lines[7].Replace("周上", "");
-				c.WeekOfCurriculum = new List<int>();
-				var weeks = lines[7].Split(',');
-				foreach(var week in weeks)
+				while(Target.DayOfWeek != DayOfWeek.Monday)
 				{
-					if(week.IndexOf("-") < 0)
+					Target = Target.AddDays(-1);
+				}
+				while(Target.DayOfWeek != DayOfWeek.Monday)
+				{
+					Target = Target.AddDays(1);
+				}
+				Display();
+			};
+			btn_week_2.Click += (sender, e) => 
+			{
+				while(Target.DayOfWeek != DayOfWeek.Monday)
+				{
+					Target = Target.AddDays(-1);
+				}
+				while(Target.DayOfWeek != DayOfWeek.Tuesday)
+				{
+					Target = Target.AddDays(1);
+				}
+				Display();
+			};
+			btn_week_3.Click += (sender, e) => 
+			{
+				while(Target.DayOfWeek != DayOfWeek.Monday)
+				{
+					Target = Target.AddDays(-1);
+				}
+				while(Target.DayOfWeek != DayOfWeek.Wednesday)
+				{
+					Target = Target.AddDays(1);
+				}
+				Display();
+			};
+			btn_week_4.Click += (sender, e) => 
+			{
+				while(Target.DayOfWeek != DayOfWeek.Monday)
+				{
+					Target = Target.AddDays(-1);
+				}
+				while(Target.DayOfWeek != DayOfWeek.Thursday)
+				{
+					Target = Target.AddDays(1);
+				}
+				Display();
+			};
+			btn_week_5.Click += (sender, e) => 
+			{
+				while(Target.DayOfWeek != DayOfWeek.Monday)
+				{
+					Target = Target.AddDays(-1);
+				}
+				while(Target.DayOfWeek != DayOfWeek.Friday)
+				{
+					Target = Target.AddDays(1);
+				}
+				Display();
+			};
+			btn_week_6.Click += (sender, e) => 
+			{
+				while(Target.DayOfWeek != DayOfWeek.Monday)
+				{
+					Target = Target.AddDays(-1);
+				}
+				while(Target.DayOfWeek != DayOfWeek.Saturday)
+				{
+					Target = Target.AddDays(1);
+				}
+				Display();
+			};
+			btn_week_7.Click += (sender, e) => 
+			{
+				while(Target.DayOfWeek != DayOfWeek.Monday)
+				{
+					Target = Target.AddDays(-1);
+				}
+				while(Target.DayOfWeek != DayOfWeek.Sunday)
+				{
+					Target = Target.AddDays(1);
+				}
+				Display();
+			};
+			Curriculums = new List<Curriculum>();
+			StartDate = Convert.ToDateTime(File.ReadAllText (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Date.txt")));
+			var result = File.ReadAllText (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"));
+			var tmp = result.Split('/');
+			try
+			{
+				foreach(var str_class in tmp)
+				{
+					var lines = str_class.TrimStart('\n').Split('\n');
+					Curriculum c = new Curriculum();
+					c.Title = lines[0];
+					c.ClassRoom = lines[5];
+					c.SectionOfDay = lines[6][2] - '0';
+					c.DayOfWeek = StringHelper.IntToDayOfWeek(lines[6][0] - '0');
+					lines[7] = lines[7].Replace("周上", "");
+					c.WeekOfCurriculum = new List<int>();
+					var weeks = lines[7].Split(',');
+					foreach(var week in weeks)
 					{
-						c.WeekOfCurriculum.Add(Convert.ToInt32(week));
-					}
-					else
-					{
-						var week_from = Convert.ToInt32(week.Split('-')[0]);
-						var week_to = Convert.ToInt32(week.Split('-')[1]);
-						for(int i = week_from; i <= week_to; i++)
+						if(week.IndexOf("-") < 0)
 						{
-							c.WeekOfCurriculum.Add(Convert.ToInt32(i));
+							c.WeekOfCurriculum.Add(Convert.ToInt32(week));
+						}
+						else
+						{
+							var week_from = Convert.ToInt32(week.Split('-')[0]);
+							var week_to = Convert.ToInt32(week.Split('-')[1]);
+							for(int i = week_from; i <= week_to; i++)
+							{
+								c.WeekOfCurriculum.Add(Convert.ToInt32(i));
+							}
 						}
 					}
+					Curriculums.Add(c);
 				}
-				Curriculums.Add(c);
-				//new AlertDialog.Builder(this).SetTitle("Result").SetMessage(String.Format("课程名：{0}\n教室：{1}\n上课时间：{2} 第{3}大节", c.Title, c.ClassRoom, c.DayOfWeek, c.SectionOfDay.ToString())).Show();
 			}
-			var StartDate = Convert.ToDateTime(File.ReadAllText (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Date.txt")));
-			var Weeks = Math.Ceiling ((DateTime.Now.Date - StartDate).TotalDays / 7);
-			TextView tvWeek = FindViewById<TextView> (Resource.Id.tvWeek);
-			tvWeek.Text = String.Format("本学期第 {0} 周", Weeks);
-			var CurrentCurriculums = (from c in Curriculums
-			                          where c.DayOfWeek == DateTime.Now.DayOfWeek
-			                              && c.WeekOfCurriculum.Any (x => x == Weeks)
-			                          orderby c.SectionOfDay ascending
-			                          select c).ToList ();
-			lstCurriculum.Adapter = new CurriculumAdapter (this, CurrentCurriculums);
+			catch
+			{
+				File.Delete (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"));
+				StartActivity (typeof(MainActivity));
+			}
+			Target = DateTime.Now;
+			Display ();
+		}
+
+		protected void Display()
+		{
+			int Days = Convert.ToInt32((Target.Date - StartDate).TotalDays);
+			var Weeks = Convert.ToInt32(Days / 7 + 1);
+			Title = Target.ToString ("M月d日") + " 星期" + StringHelper.DayOfWeekToCHN (Target.DayOfWeek)+String.Format(" 第 {0} 周", Weeks);
+			btn_week_1.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			btn_week_2.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			btn_week_3.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			btn_week_4.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			btn_week_5.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			btn_week_6.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			btn_week_7.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			switch (Target.DayOfWeek) 
+			{
+			case DayOfWeek.Monday:
+				btn_week_1.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
+				break;
+			case DayOfWeek.Tuesday:
+				btn_week_2.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
+				break;
+			case DayOfWeek.Wednesday:
+				btn_week_3.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
+				break;
+			case DayOfWeek.Thursday:
+				btn_week_4.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
+				break;
+			case DayOfWeek.Friday:
+				btn_week_5.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
+				break;
+			case DayOfWeek.Saturday:
+				btn_week_6.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
+				break;
+			case DayOfWeek.Sunday:
+				btn_week_7.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
+				break;
+			}
+			var CurrentCurriculums = (from c in this.Curriculums
+				where c.DayOfWeek == Target.DayOfWeek
+				&& c.WeekOfCurriculum.Any (x => x == Weeks)
+				orderby c.SectionOfDay ascending
+				select c).ToList ();
+			if (CurrentCurriculums.Count == 0) 
+			{
+				CurrentCurriculums.Add (new Curriculum()
+					{
+						Title = "没有任何课程安排"
+					});
+			}
+			adapter.items = CurrentCurriculums;
+			lstCurriculum.InvalidateViews();
+		}
+
+		public override bool OnOptionsItemSelected (IMenuItem item)
+		{
+			switch (item.ItemId) 
+			{
+			case 0: 
+				File.Delete (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"));
+				StartActivity (typeof(MainActivity));
+				break;
+			case 1:
+				Target = Target.AddDays (-1);
+				Display ();
+				break;
+			case 2:
+				Target = Target.AddDays (1);
+				Display ();
+				break;
+			}
+			return true;
 		}
 	}
 }

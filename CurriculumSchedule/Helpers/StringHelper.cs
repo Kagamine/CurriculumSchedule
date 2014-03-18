@@ -55,6 +55,28 @@ namespace CurriculumSchedule
 			default: return DayOfWeek.Monday;
 			}
 		}
+		public static string DayOfWeekToCHN(DayOfWeek d)
+		{
+			switch (d) 
+			{
+			case DayOfWeek.Monday:
+				return "一";
+			case DayOfWeek.Tuesday:
+				return "二";
+			case DayOfWeek.Wednesday:
+				return "三";
+			case DayOfWeek.Thursday:
+				return "四";
+			case DayOfWeek.Friday:
+				return "五";
+			case DayOfWeek.Saturday:
+				return "六";
+			case DayOfWeek.Sunday:
+				return "日";
+			default:
+				return "";
+			}
+		}
 	}
 }
 
