@@ -15,17 +15,18 @@ namespace CurriculumSchedule
 	[Activity (Label = "今日课程")]			
 	public class TodayScheduleActivity : Activity
 	{
-		public List<Curriculum> Curriculums;
+		public static List<Curriculum> Curriculums;
 		ListView lstCurriculum;
 		public DateTime Target;
-		public DateTime StartDate;
+		public static DateTime StartDate;
 		public CurriculumAdapter adapter;
 		public Button btn_week_1, btn_week_2, btn_week_3, btn_week_4, btn_week_5, btn_week_6, btn_week_7;
 		public override bool OnCreateOptionsMenu (IMenu menu)
 		{
 			menu.Add (0, 0, 0, "切换帐号");
-			menu.Add (0, 1, 1, "前一天");
-			menu.Add (0, 2, 2, "后一天");
+			menu.Add (1, 1, 1, "前一天");
+			menu.Add (1, 2, 2, "后一天");
+			menu.Add (2, 3, 3, "添加课程");
 			return true;
 		}
 		protected override void OnCreate (Bundle bundle)
@@ -134,7 +135,7 @@ namespace CurriculumSchedule
 			{
 				foreach(var str_class in tmp)
 				{
-					var lines = str_class.TrimStart('\n').Split('\n');
+					var lines = str_class.Trim('\n').Split('\n');
 					Curriculum c = new Curriculum();
 					c.Title = lines[0];
 					c.ClassRoom = lines[5];
@@ -164,9 +165,37 @@ namespace CurriculumSchedule
 			}
 			catch
 			{
+				throw;
 				File.Delete (Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"));
 				StartActivity (typeof(MainActivity));
 			}
+			lstCurriculum.ItemLongClick+= (object sender, AdapterView.ItemLongClickEventArgs e) => 
+			{
+				int Days = Convert.ToInt32((Target.Date - StartDate).TotalDays);
+				var Weeks = Convert.ToInt32(Days / 7 + 1);
+				new AlertDialog.Builder(this).SetTitle("删除").SetMessage(String.Format("{0}\n确认删除吗？", adapter.items[e.Position].Title)).SetPositiveButton("确认", delegate {
+					var index = Curriculums.FindIndex(x=>x.DayOfWeek == Target.DayOfWeek
+						&& x.SectionOfDay == adapter.items[e.Position].SectionOfDay
+						&& x.WeekOfCurriculum.Any(w => w == Weeks));
+					Curriculums[index].WeekOfCurriculum.Remove(Weeks);
+					result = "";
+					foreach(var c in Curriculums)
+					{
+						string t = "";
+						foreach(var week in c.WeekOfCurriculum)
+						{
+							t += week + ",";
+						}
+						t = t.TrimEnd(',');
+						if(t == String.Empty)
+							t = "65536";
+						result += String.Format("/\n{0}\n\n\n\n\n{1}\n{2}-{3}\n{4}周上\n",c.Title, c.ClassRoom, StringHelper.DayOfWeekToInt(c.DayOfWeek), c.SectionOfDay, t);
+					}
+					result = result.TrimStart('/');
+					File.WriteAllText(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"), result);
+					Display();
+			}).SetNegativeButton("取消", delegate { }).Show();
+			};
 			Target = DateTime.Now;
 			Display ();
 		}
@@ -207,7 +236,7 @@ namespace CurriculumSchedule
 				btn_week_7.SetBackgroundColor (Android.Graphics.Color.Rgb(41,162,220));
 				break;
 			}
-			var CurrentCurriculums = (from c in this.Curriculums
+			var CurrentCurriculums = (from c in Curriculums
 				where c.DayOfWeek == Target.DayOfWeek
 				&& c.WeekOfCurriculum.Any (x => x == Weeks)
 				orderby c.SectionOfDay ascending
@@ -237,6 +266,12 @@ namespace CurriculumSchedule
 				break;
 			case 2:
 				Target = Target.AddDays (1);
+				Display ();
+				break;
+			case 3:
+				var transaction = FragmentManager.BeginTransaction ();
+				var addcurriculum = new AddCurriculumDialog ();
+				addcurriculum.Show (transaction, "添加课程");
 				Display ();
 				break;
 			}

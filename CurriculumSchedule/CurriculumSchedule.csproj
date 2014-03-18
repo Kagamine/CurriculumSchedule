@@ -58,6 +58,7 @@
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\CurriculumAdapter.cs" />
     <Compile Include="Helpers\Math.cs" />
+    <Compile Include="Helpers\AddCurriculumDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -70,6 +71,7 @@
     <AndroidResource Include="Resources\layout\TodaySchedule.axml" />
     <AndroidResource Include="Resources\layout\CurriculumItem.axml" />
     <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\layout\AddCurriculum.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -33,6 +33,11 @@ namespace CurriculumSchedule
 			btnGet.Click += (Sender, ev) => 
 			{
 				var result = HttpHelper.HttpGet(String.Format("http://qqhruapi.4321.io/?stuid={0}&pwd={1}", txtStudentNumber.Text, txtPassword.Text));
+				if(result == String.Empty)
+				{
+					new AlertDialog.Builder(this).SetTitle("提示").SetMessage("学号或密码不正确，请重试！").SetNegativeButton("取消", delegate { }).Show();
+					return;
+				}
 				var date = HttpHelper.HttpGet(String.Format("http://qqhruapi.4321.io/NewTerm.txt"));
 				File.WriteAllText(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Date.txt"), date);
 				File.WriteAllText(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Cache.html"), result);
