@@ -72,6 +72,7 @@
     <AndroidResource Include="Resources\layout\CurriculumItem.axml" />
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\layout\AddCurriculum.axml" />
+    <AndroidResource Include="Resources\drawable\background_selector.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -205,13 +205,13 @@ namespace CurriculumSchedule
 			int Days = Convert.ToInt32((Target.Date - StartDate).TotalDays);
 			var Weeks = Convert.ToInt32(Days / 7 + 1);
 			Title = Target.ToString ("M月d日") + " 星期" + StringHelper.DayOfWeekToCHN (Target.DayOfWeek)+String.Format(" 第 {0} 周", Weeks);
-			btn_week_1.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
-			btn_week_2.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
-			btn_week_3.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
-			btn_week_4.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
-			btn_week_5.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
-			btn_week_6.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
-			btn_week_7.SetBackgroundColor (Android.Graphics.Color.Rgb(0,0,0));
+			btn_week_1.SetBackgroundColor (Android.Graphics.Color.Argb(0,0,0,0));
+			btn_week_2.SetBackgroundColor (Android.Graphics.Color.Argb(0,0,0,0));
+			btn_week_3.SetBackgroundColor (Android.Graphics.Color.Argb(0,0,0,0));
+			btn_week_4.SetBackgroundColor (Android.Graphics.Color.Argb(0,0,0,0));
+			btn_week_5.SetBackgroundColor (Android.Graphics.Color.Argb(0,0,0,0));
+			btn_week_6.SetBackgroundColor (Android.Graphics.Color.Argb(0,0,0,0));
+			btn_week_7.SetBackgroundColor (Android.Graphics.Color.Argb(0,0,0,0));
 			switch (Target.DayOfWeek) 
 			{
 			case DayOfWeek.Monday:
